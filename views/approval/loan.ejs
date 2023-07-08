@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ICT - Product Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
+  <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="../assets/linericon/style.css">
+  <link rel="stylesheet" href="../assets/nice-select/nice-select.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style1.css">
+</head>
+
+<body>
+  <!--================ Start Header Menu Area =================-->
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="/approvalhome"><img src="../assets/img/logo-small.png"
+              style="width: 60px; height: 60px;" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item"><a class="nav-link" href="/approvalhome">Home</a></li>
+              <li class="nav-item active"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+              <li class="nav-item active submenu dropdown">
+                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">Loan<span class="badge badge-danger">
+                    <!-- Display the pending loan count here -->
+                    <%= pendingLoansCount + pendingapprovalLoanCount %>
+                  </span></a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item">
+                    <a href="/personalloan" class="nav-link">Your Loan</a>
+                  </li>
+                  <div class="nav-item dropright dropdown-dropright">
+                    <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false" id="loanDropdown">Pending Loan
+                      <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/view-req-loan">User<span class="badge badge-danger">
+                            <!-- Display the pending loan count here -->
+                            <%= pendingLoansCount %>
+                          </span></a>
+                      </div>
+                      <div class="nav-item">
+                        <a class="dropdown-item" href="/viewapproval-req-loan">Approval<span class="badge badge-danger">
+                            <%= pendingapprovalLoanCount %>
+                          </span></a>
+                      </div>
+                    </div>
+                  </div>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
+
+            </ul>
+
+            <ul class="nav-shop">
+              <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                  <span
+                    class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                    style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                    <%= cartItemCount %>
+                  </span></a> </li>
+              <li class="nav-item submenu dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false"> <img src="<%=user.image%>" class="rounded-circle" height="30" width="30"
+                    alt="User Profile" loading="lazy" /></a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- <div class="product_image_area"> -->
+  <div class="container mt-4">
+    <%- include('messages') %>
+
+      <div class="row s_product_inner mt-auto">
+        <div class="col-lg-5">
+          <div class="owl-carousel owl-theme s_Product_carousel">
+            <div class="single-prd-item">
+              <img class="img-fluid" src="<%=item.image%>" alt="ITEMIMG">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 offset-lg-1">
+          <div class="s_product_text mt-auto">
+            <h3>
+              <%= item.name %>
+            </h3>
+            <span>Tag: <%=item.itemtag%>
+            </span><br>
+
+            <span>Category:
+              <%= item.category.name %>
+            </span><br>
+
+            <span
+              class="<% if (item.available_items === 1) { %>text-success<% } else if (item.available_items === 0) { %>text-warning<% } %>">
+              <% if (item.available_items===1) { %>
+                Available
+                <% } else if (item.available_items===0) { %>
+                  On Loan
+                  <% } %>
+            </span>
+            <p>
+              <%= item.description %>
+            </p>
+            <!-- <div class="row quantity "> -->
+            <form action="/loan/<%=item.id%>" method="POST">
+              <div class="row">
+                <div class="col-lg-12">
+                  <select class="form-select" name="approval" aria-label="Default select example" required>
+                    <option selected>Select Approval</option>
+                    <% approvals.forEach((approval)=> { %>
+                      <option value="<%= approval._id %>">
+                        <%= approval.name %>
+                      </option>
+                      <% }) %>
+                  </select>.
+
+                </div>
+
+                <div class="col-lg-12 mt-2">
+                  <label for="return_date" style="color: black;">Return Date:</label>
+                  <% const today=new Date().toISOString().split('T')[0]; %>
+
+                    <input type="date" name="return_date" placeholder="dd-mm-yyyy" class="form-control"
+                      min="<%= today%>" oninput="disableWeekends(event.target)" required>
+
+                    <button type="submit" class="button primary-btn applyl">
+                      Request Loan
+                    </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+  </div>
+  </div>
+  </div>
+  <hr>
+
+
+  <footer>
+
+
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row d-flex">
+          <p class="col-lg-12 footer-text text-center">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--================ End footer Area  =================-->
+  <script>
+    function disableWeekends(input) {
+      const selectedDate = new Date(input.value);
+      const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+      if (day === 0 || day === 6) {
+        // Disable selection on weekends
+        input.setCustomValidity('Please select a weekday for the return date.');
+      } else {
+        // Enable selection on weekdays
+        input.setCustomValidity('');
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
+  <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/skrollr.min.js"></script>
+  <script src="../assets/owl-carousel/owl.carousel.min.js"></script>
+  <script src="../assets/nice-select/jquery.nice-select.min.js"></script>
+  <script src="../assets/jquery.ajaxchimp.min.js"></script>
+  <script src="../assets/mail-script.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+
+  <script>
+    // Get the input element
+    const datepicker = document.getElementById("datepicker");
+
+    // Initialize the datepicker
+    flatpickr(datepicker, {
+      // Set the format of the date
+      dateFormat: "d-m-Y",
+      // Set the default date to today's date
+      defaultDate: "today",
+      // Set the minimum selectable date to today's date
+      minDate: "today",
+    });
+
+  </script>
+
+</body>
+
+</html>

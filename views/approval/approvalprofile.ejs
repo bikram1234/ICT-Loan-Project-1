@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ICT - User Profile</title>
+    <link rel="icon" href="assets/img/logo-small.png" type="image/png">
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="assets/linericon/style.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/owl-carousel/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="assets/css/style1.css">
+    <style>
+        .col-4 {
+            /* font-weight: bold; */
+            color: black;
+            font-size: medium;
+        }
+
+        .image {
+            opacity: 1;
+            display: block;
+            object-fit: cover;
+            /* z-index: 1; */
+            min-width: 200px;
+            min-height: 200px;
+            max-width: 300px;
+            max-height: 350px;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .middle {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .image_container:hover .image {
+            opacity: 0.3;
+        }
+
+        .image_container:hover .middle {
+            opacity: 1;
+        }
+
+        .image-upload>input {
+            display: none;
+        }
+
+        .ti-camera {
+            margin-top: 100px;
+            font-size: 50px;
+            margin-right: 100px;
+        }
+
+        .image-upload img {
+            width: 100px;
+            cursor: pointer;
+            height: 100px;
+        }
+
+        .float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #2a3f54;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            box-shadow: 2px 2px 3px #999;
+        }
+
+        .my-float {
+            margin-top: 22px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand logo_h" href="/approvalhome"><img src="assets/img/logo-small.png"
+                            style="width: 60px; height: 60px;" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                            <li class="nav-item"><a class="nav-link" href="approvalhome">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/all-equipment">Equipment</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Loan<span class="badge badge-danger">
+                                        <!-- Display the pending loan count here -->
+                                        <%= pendingLoansCount + pendingapprovalLoanCount %>
+                                    </span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="/personalloan" class="nav-link">Your Loan</a>
+                                    </li>
+                                    <div class="nav-item dropright dropdown-dropright">
+                                        <a href=# class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                            aria-haspopup="true" aria-expanded="false" id="loanDropdown">Pending Loan
+                                            <i class="ti-angle-right" style="margin-left: 22.5px;"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="loanDropdown">
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/view-req-loan">User<span
+                                                        class="badge badge-danger">
+                                                        <!-- Display the pending loan count here -->
+                                                        <%= pendingLoansCount %>
+                                                    </span></a>
+                                            </div>
+                                            <div class="nav-item">
+                                                <a class="dropdown-item" href="/viewapproval-req-loan">Approval<span
+                                                        class="badge badge-danger">
+                                                        <%= pendingapprovalLoanCount %>
+                                                    </span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/aboutus1">About</a></li>
+
+
+                        </ul>
+
+                        <ul class="nav-shop">
+                            <li class="nav-item cartnav"><a href="/cart1"><i class="ti-shopping-cart"
+                                        style="font-size: large;"></i> <span
+                                        class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                                        style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                                        <%= cartItemCount %>
+                                    </span></a> </li>
+
+                            <li class="nav-item submenu dropdown">
+
+
+
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false"> <img src="<%=approval.image%>"
+                                        class="rounded-circle" height="30" width="30" alt="User Profile"
+                                        loading="lazy" /></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/approval-profile">My Profile</a>
+                                    <a class="dropdown-item" href="/logout">Logout</a>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </header>
+
+    <section>
+        <div class="container wrapper">
+            <h4 class="mt-3">User Profile</h4>
+            <hr>
+            <%- include('messages') %>
+                <form action="/approval-profile" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-5">
+
+                            <div class="image_container" id="image-container">
+                                <img class="img-fluid image" src="<%=approval.image%>" alt="" width="100%"
+                                    height="100%">
+                                <div class="middle">
+                                    <div class="image-upload">
+                                        <label for="file-input">
+                                            <i class="ti-camera"></i>
+                                        </label>
+
+                                        <input id="file-input" value="<%= approval.image %>" name="image" type="file" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-7">
+
+                            <div class="row gy-2">
+                                <div class="col-4">
+                                    <div class="p-3"><b>Name</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.name%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>User ID</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.userid%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Department</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3">
+                                        <%=approval.department%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Email</b></div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="p-3">
+                                        <%=approval.email%>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="p-3"><b>Contact No</b></div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3"><input type="number" id="mobilenumber" name="mno"
+                                            class="form-control" value="<%=approval.mobilenumber %>" required></div>
+                                    <small id="mobilenumberError" class="text-danger"></small>
+
+                                </div>
+                                <div class="col-sm-2 mt-3">
+                                    <button type="submit" class="btn btn-primary"
+                                        style="font-size: large;">Save</button>
+                                    <input type="hidden" name="id" value="<%= approval._id %>">
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+    </section>
+    <!-- Product Details Section End -->
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row d-flex">
+                    <p class="col-lg-12 footer-text text-center">
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+    <script>
+        const imageContainer = document.getElementById("image-container");
+        const originalImage = imageContainer.querySelector("img");
+        const imageUpload = imageContainer.querySelector("#file-input");
+
+        imageUpload.addEventListener("change", () => {
+            const file = imageUpload.files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", () => {
+                originalImage.src = reader.result;
+                originalImage.dataset.src = reader.result;
+            });
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+    <script>
+        // Get the input element and error message element
+        const mobileNumberInput = document.getElementById('mobilenumber');
+        const mobileNumberError = document.getElementById('mobilenumberError');
+
+        // Add event listener to validate input on keyup
+        mobileNumberInput.addEventListener('keyup', validateMobileNumber);
+
+        function validateMobileNumber() {
+            const mobileNumber = mobileNumberInput.value.trim();
+
+            // Reset error message
+            mobileNumberError.textContent = '';
+
+            // Validate the length and first two numbers
+            if (mobileNumber.length !== 8 || !/^(77|17)/.test(mobileNumber)) {
+                mobileNumberError.textContent = 'Mobile number must have a length of 8 and start with 77 or 17.';
+            }
+        }
+    </script>
+
+
+    <script src="assets/jquery/jquery-3.2.1.min.js"></script>
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/skrollr.min.js"></script>
+
+</body>
+
+</html>

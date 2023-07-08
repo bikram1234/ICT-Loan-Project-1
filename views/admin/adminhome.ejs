@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Admin Dashboard</title>
+    <link rel="shortcut icon" href="assets/img/logo-small.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/plugins/feather/feather.css">
+    <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a href="/adminhome" class="logo">
+
+                    <img src="assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="/adminhome" class="logo logo-small">
+                    <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+
+
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+            <ul class="nav user-menu">
+
+
+
+
+                <li class="nav-item dropdown has-arrow new-user-menus">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="<%= admin.image %>" width="31" alt="Soeng Souy">
+                            <div class="user-text">
+                                <h6>
+                                    <%= admin.name %>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="<%= admin.image %>" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>
+                                    <%= admin.name %>
+                                </h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="/adminprofile">My Profile</a>
+                        <!-- <a class="dropdown-item" href="inbox.html">Inbox</a> -->
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                        <li class="submenu active">
+                            <a href="/adminhome"><i class="feather-grid"></i> <span> Dashboard</span> </a>
+
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-user"></i> <span> User</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <!-- <li><a href="student-details.html">Student View</a></li> -->
+                                <li><a href="/new-user">Add User</a></li>
+                                <li><a href="/viewstudent">All User</a></li>
+                                <!-- <li><a href="/viewstaff">Staff View</a></li> -->
+
+
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-laptop"></i> <span> Equipment</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="/all-item">All Equipment</a></li>
+                                <li><a href="/add-item"> Add Equipment</a></li>
+                                <li><a href="/categories">Category</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/view-approved-loan"><i class="fas fa-hand-holding"></i> <span> Loan</span> </a>
+
+                        </li>
+
+                        <!-- <li class="submenu">
+                            <a href="#"><i class="fas fa-hand-holding"></i> <span>Loan</span><span
+                                    class="menu-arrow"></span></a>
+
+                            <ul>
+                                <li><a href="/view-approved-loan">Approved Loan</a></li>
+                                <li><a href="/ready-forcollect">Collect Loan</a></li>
+                                <li><a href="/on_loanview">On Loan</a></li>
+                                <li><a href="/viewoverdue">Overdue Loan</a></li>
+                                <li><a href="/returnedloan_view">Returned Loan</a></li>
+
+                            </ul>
+
+                        </li> -->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-sub-header">
+                                <h3 class="page-title">Welcome <%= admin.name%>!</h3>
+                                <ul class="breadcrumb"
+                                    style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                                    aria-label="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/adminhome">Home</a></li>
+                                    <li class="breadcrumb-item active">Admin</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <%- include('messages') %>
+
+
+                        <div class="col-xl-3 col-md-6">
+                            <a href="/ready-forcollect">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">
+                                        Todays Collection Due
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+
+
+
+                                        <h3>
+                                            <%= collectionCount %>
+                                        </h3>
+
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <a href="/on_loanview">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">
+                                        On Loan
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+
+
+
+                                        <h3>
+                                            <%= onLoanCount %>
+                                        </h3>
+
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <a href="/view-approved-loan">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">
+                                        Approved Loan
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+
+
+
+                                        <h3>
+                                            <%= approvedLoanCount %>
+                                        </h3>
+
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <a href="/all-item">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">
+                                        Equipment
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+
+                                        <h3>
+                                            <%= itemcount %>
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h5 class="card-title">Pending and Overdue loan</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
+                                        <h5 class="card-title">Equipment overview</h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="piechart"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Equipment</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="barchart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+    <script>
+        var xValues = ["On Loan Item", "Available Item"];
+        var yValues = ['<%- itemonloancount %>', '<%- availableitem %>'];
+        var barColors = ["#b91d47", "#00aba9"];
+
+        new Chart("piechart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Total number of items"
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                height: 400 // Set the desired height here
+            }
+        });
+
+        var topItems = JSON.parse('<%- JSON.stringify(topItems) %>');
+
+        var xValues = topItems.map(item => item.name);
+        var yValues = topItems.map(item => item.count);
+        var barColors = generateRandomColors(topItems.length);
+
+        new Chart("barchart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Top 10 Item Count"
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            precision: 0, // Display whole numbers
+                            beginAtZero: true // Start the y-axis from 0
+                        }
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'bottom'
+                    }
+                },
+            }
+        });
+
+
+
+        var xValues = ["Overdue Loan", "Pending Loan"];
+        var yValues = ['<%- overduecount %>', '<%- pendingcount %>'];
+        var barColors = ["#b91d47", "#00aba9", "#2b5797"];
+
+        new Chart("myChart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Total Number of overdue and pending"
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                height: 400 // Set the desired height here
+            }
+        });
+
+        function generateRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                colors.push(color);
+            }
+            return colors;
+        }
+    </script>
+
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/js/script.js"></script>
+
+</body>
+
+</html>

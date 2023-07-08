@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ICT ELS - Cart</title>
+  <link rel="icon" href="../assets/img/logo-small.png" type="image/png">
+  <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css"> -->
+  <link rel="stylesheet" href="../assets/themify-icons/themify-icons.css">
+  <!-- <link rel="stylesheet" href="../assets/linericon/style.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="../assets/owl-carousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="../assets/nice-select/nice-select.css">
+  <link rel="stylesheet" href="../assets/nouislider/nouislider.min.css"> -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+  <link rel="stylesheet" href="../assets/css/style1.css">
+</head>
+
+<body>
+  <header class="header_area">
+    <div class="main_menu">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a class="navbar-brand logo_h" href="/userhome"><img src="../assets/img/logo-small.png"
+              style="width: 60px; height: 60px;" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+              <li class="nav-item"><a class="nav-link" href="/userhome">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/all-items">Equipment</a></li>
+              <li class="nav-item"><a class="nav-link" href="/get_loan">Loan</a></li>
+              <li class="nav-item"><a class="nav-link" href="/aboutus">About</a></li>
+
+
+            </ul>
+
+            <ul class="nav-shop">
+              <li class="nav-item cartnav"><a href="#"><i class="ti-shopping-cart" style="font-size: large;"></i>
+                <span
+                  class="position-relative start-100 translate-middle badge rounded-pill bg-danger <%= cartItemCount > 0 ? ' active' : '' %>"
+                  style="color: #fff; top: -10px; font-size: smaller; right: 7px;">
+                  <%= cartItemCount %>
+                </span></a> </li>
+              <li class="nav-item submenu dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false"> <img src="<%=user.image%>" class="rounded-circle" height="30" width="30"
+                    alt="User Profile" loading="lazy" /></a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/user-profile">My Profile</a>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+
+                </div>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="container mt-2">
+    <%- include('messages') %>
+
+      <div class="cart_inner">
+        <% if (cart && cart.length) { %>
+
+          <!-- <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <label for="">Product</label>
+              </div>
+              <div class="col-lg-4">
+                <label for="">Available</label>
+              </div>
+              <div class="col-lg-4">
+                <label for="">Quantity</label>
+              </div>
+            </div>
+
+          </div> -->
+          
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Item Tag</th>
+                </tr>
+              </thead>
+              <tbody>
+                <form action="/card" method="POST">
+                  <% cart.forEach((cartItem)=> { %>
+                    <tr class="">
+                      <td class="col-lg-5">
+                        <div class="media">
+                          <img src="<%= cartItem.item.image %>" alt="" class="img-fluid img-thumbnail imgcard mr-3">
+                          <div class="media-body">
+                            <p>
+                              <%= cartItem.item.name %>
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="col-lg-2">
+                        <div class="media-body">
+                          <p>
+                            <%= cartItem.categoryName %>
+                          </p>
+                        </div>
+                      </td>
+
+                      <td>
+                        <p>
+                          <%=cartItem.item.itemtag%>
+                        </p>
+                      </td>
+
+                      <td class="col-lg-3 col-md-3 col-2">
+                        <input type="hidden" value="<%= cartItem.id %>">
+                        <a href="/deleteItem?id=<%= cartItem.id %>"><span class="material-symbols-outlined"
+                            style="color: gray;">
+                            cancel
+                          </span></a>
+                      </td>
+                    </tr>
+                    <% }) %>
+                      <tr>
+                        <td colspan="3">
+                          <div class="form-group">
+                            <label for="return_date">Return Date:</label>
+                            <% const today = new Date().toISOString().split('T')[0]; %>
+                            
+                            <input type="date" class="form-control col-lg-4" name="return_date"min="<%= today%>"
+                               required oninput="disableWeekends(event.target)">
+                            <button class="button primary-btn mt-3" style="border-radius: 1vh;" type="submit">Request
+                              Loan</button>
+                          </div>
+                        </td>
+                      </tr>
+                </form>
+              </tbody>
+            </table>
+
+          </div>
+
+          <% } else { %>
+            <p>Your cart is empty.</p>
+            <% } %>
+      </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row d-flex">
+          <p class="col-lg-12 footer-text text-center">
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved | ICT-ELS
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <Script>
+    function deleteCartItem(index) {
+      const deletedItemsInput = document.getElementById('deleted_items');
+      const deletedItems = JSON.parse(deletedItemsInput.value || '[]');
+      deletedItems.push(index);
+      deletedItemsInput.value = JSON.stringify(deletedItems);
+      document.forms[0].submit();
+    }
+  </Script>
+
+<script>
+  function disableWeekends(input) {
+    const selectedDate = new Date(input.value);
+    const day = selectedDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+    if (day === 0 || day === 6) {
+      // Disable selection on weekends
+      input.setCustomValidity('Please select a weekday for the return date.');
+    } else {
+      // Enable selection on weekdays
+      input.setCustomValidity('');
+    }
+  }
+</script>
+
+
+  <script src="../assets/jquery/jquery-3.2.1.min.js"></script>
+  <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/skrollr.min.js"></script>
+  <script src="../assets/owl-carousel/owl.carousel.min.js"></script>
+  <script src="../assets/nice-select/jquery.nice-select.min.js"></script>
+  <script src="../assets/jquery.ajaxchimp.min.js"></script>
+  <script src="../assets/mail-script.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>
